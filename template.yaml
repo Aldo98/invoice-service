@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Guide Booker Invoice Generator (FastAPI on Lambda container)
+
+Globals:
+  Function:
+    Timeout: 15
+    MemorySize: 512
+
+Resources:
+  InvoiceApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      BinaryMediaTypes:
+        - application/pdf
+
+  InvoiceFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      Events:
+        GenerateInvoice:
+          Type: Api
+          Properties:
+            RestApiId: !Ref InvoiceApi
+            Path: /generate-invoice
+            Method: POST
+      Environment:
+        Variables:
+          MANGUM_BINARY_CONTENT_TYPES: "application/pdf"
+    Metadata:
+      DockerTag: python39-fastapi-invoice
+      DockerContext: .
+      Dockerfile: Dockerfile
