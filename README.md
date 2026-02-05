@@ -38,3 +38,15 @@ Postman shared collection: [View Collection][postman]. This collection is design
 4. Send requests
 
 [postman]: https://www.postman.com/infra-grit/workspace/aldo-public/request/10685688-9e434054-cd96-42ed-9f50-4d57d2a4a3f0?action=share&creator=10685688&active-environment=10685688-6ff48377-89dc-45a6-931e-bc53e7dce604
+
+---
+
+## Test
+```promt
+python -m venv .venv
+.\.venv\Scripts\activate
+
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m pip install pytest httpx
+python -m pytest -q
